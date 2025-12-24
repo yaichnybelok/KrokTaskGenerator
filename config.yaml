@@ -1,0 +1,9 @@
+WINDOW_WIDTH: 1920  # ширина и высота окна
+WINDOW_HEIGHT: 1080
+CELLSIZE: 20  # сторона клетки
+TRAJECTORY_LENGTH: 5  # длина команды робота
+TRAJECTORY_AMOUNT: 4  # количество команд робота
+TRAJECTORY_STEP: 10  # отступ между траекториями
+TASK_START_POINT_X: 10 # координаты начала задания
+TASK_START_POINT_Y: 15
+DIFFICULTY: 3 # сложность задания
