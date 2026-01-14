@@ -7,3 +7,8 @@ TRAJECTORY_STEP: 10  # отступ между траекториями
 TASK_START_POINT_X: 10 # координаты начала задания
 TASK_START_POINT_Y: 15
 DIFFICULTY: 3 # сложность задания
+CELLS: False # рисовать ли клетки?
+TASK_DESCRIPTION: task # описание задания
+TASKS_AMOUNT: 2
+TASKS_FILENAME: tasks
+ANSWERS_FILENAME: ans
