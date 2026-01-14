@@ -95,7 +95,6 @@ def MakeField():
             PreviousRandomNumber = 0
 
             for i in range(TRAJECTORY_LENGTH):
-                print(TrajectoryStartPoint, a, j)
                 trajectory_coords[a][j].append(TrajectoryStartPoint)
                 RandomNumber = random.randint(1, 4)  # Случайное число для генерации поворотов
                 lenght = 1  # длина поворота
@@ -143,7 +142,7 @@ def MakeField():
                                    (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=5,
                                    outline='black')
             TrajectoryStartPoint = [DefaultPoint[0] + CellSizing((j + 1) * TRAJECTORY_STEP), DefaultPoint[1]]
-            
+
         # ---------------------------------------------Генерация задачи-------------------------------------------------
 
         TrajectoryStartPoint = [CellSizing(TASK_START_POINT_X), CellSizing(TASK_START_POINT_Y)]
@@ -159,6 +158,7 @@ def MakeField():
                                        (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=3)
 
                     TrajectoryStartPoint[1] = TrajectoryStartPoint[1] - CellSizing(1)
+
 
                 elif i == 'right':
                     canvas.create_line((TrajectoryStartPoint[0] + CellSizing(1)), TrajectoryStartPoint[1],
@@ -208,4 +208,3 @@ def MakeField():
 
 
 MakeField()
-print(trajectory_coords)
