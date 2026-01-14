@@ -6,7 +6,7 @@ from PIL import ImageGrab
 from docx import *
 from docx.shared import Inches, Cm, Pt
 
-with open('config.yaml', 'r') as file:
+with open('config.yaml', 'r', encoding='utf-8') as file:
     configuration = yaml.safe_load(file)
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -191,8 +191,9 @@ def MakeField():
             bbox=(15, 70, 1000, 1000))
         screenshot.save('screenshot.jpg')
         document.add_picture('screenshot.jpg', width=Cm(15), height=Cm(15))
-        for i in range(6):
-            document.add_paragraph(' ')
+        document.add_paragraph(' ')
+        document.add_paragraph(' ')
+        document.add_paragraph('Ответ:____________')
         document.save(str(TASKS_FILENAME) + '.docx')
         ans_document = Document()
         for i in range(len(answer)):
