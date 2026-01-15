@@ -3,7 +3,6 @@ import tkinter
 
 import yaml
 from PIL import ImageGrab
-from cffi.cffi_opcode import PRIM_INT
 from docx import *
 from docx.shared import Inches, Cm, Pt
 
