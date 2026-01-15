@@ -83,7 +83,7 @@ def MakeField():
         # Рисование клеток
 
         DefaultPoint = [CellSizing(8), CellSizing(6)]
-        TrajectoryStartPoint = [CellSizing(8), CellSizing(6)]  # Исходная точка траектории
+        TrajectoryStartPoint = [CellSizing(7), CellSizing(6)]  # Исходная точка траектории
 
         # Генерация траекторий
 
@@ -98,16 +98,8 @@ def MakeField():
                 trajectory_coords[a][j].append(TrajectoryStartPoint)
                 RandomNumber = random.randint(1, 4)  # Случайное число для генерации поворотов
                 lenght = 1  # длина поворота
+
                 while abs(PreviousRandomNumber - RandomNumber) == 2:
-                    # while (
-                    # RandomNumber == 4 and [TrajectoryStartPoint[0], TrajectoryStartPoint[1] - CellSizing(1)] in
-                    # trajectory_coords[a][j]) or (
-                    # RandomNumber == 2 and [TrajectoryStartPoint[0], TrajectoryStartPoint[1] + CellSizing(1)] in
-                    # trajectory_coords[a][j]) or (
-                    # RandomNumber == 1 and [TrajectoryStartPoint[0] + CellSizing(1), TrajectoryStartPoint[1]] in
-                    # trajectory_coords[a][j]) or (
-                    # RandomNumber == 3 and [TrajectoryStartPoint[0] - CellSizing(1), TrajectoryStartPoint[1]] in
-                    # trajectory_coords[a][j]):
                     RandomNumber = random.randint(1, 4)
 
                 if RandomNumber == 4:
