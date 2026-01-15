@@ -19,4 +19,3 @@ WINDOW_HEIGHT: 1080
 TRAJECTORY_STEP: 10  # отступ между траекториями
 TASK_START_POINT_X: 10 # координаты начала задания
 TASK_START_POINT_Y: 15
-
