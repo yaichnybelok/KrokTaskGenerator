@@ -198,8 +198,13 @@ def MakeField():
         screenshot = ImageGrab.grab(
             bbox=(15, 70, 1000, 1000))
         screenshot.save('screenshot.jpg')
+        naming_string = ' ' * 24
+        for i in range(TRAJECTORY_AMOUNT):
+            naming_string += alphabet[i]
+            naming_string += ' ' * 33
+
+        document.add_paragraph(naming_string)
         document.add_picture('screenshot.jpg', width=Cm(15), height=Cm(15))
-        document.add_paragraph(' ')
         document.add_paragraph(' ')
         document.add_paragraph('Ответ:____________')
         document.save(str(TASKS_FILENAME) + '.docx')
