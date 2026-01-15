@@ -3,6 +3,7 @@ import tkinter
 
 import yaml
 from PIL import ImageGrab
+from cffi.cffi_opcode import PRIM_INT
 from docx import *
 from docx.shared import Inches, Cm, Pt
 
@@ -94,12 +95,27 @@ def MakeField():
 
             PreviousRandomNumber = 0
 
+            current_trajectory = []
+
             for i in range(TRAJECTORY_LENGTH):
                 trajectory_coords[a][j].append(TrajectoryStartPoint)
+
+                current_trajectory.append(TrajectoryStartPoint.copy())
+
                 RandomNumber = random.randint(1, 4)  # Случайное число для генерации поворотов
                 lenght = 1  # длина поворота
 
                 while abs(PreviousRandomNumber - RandomNumber) == 2:
+                    RandomNumber = random.randint(1, 4)
+
+                while (RandomNumber == 1 and [TrajectoryStartPoint[0] + CellSizing(1),
+                                              TrajectoryStartPoint[1]] in current_trajectory) or (
+                        RandomNumber == 2 and [TrajectoryStartPoint[0],
+                                               TrajectoryStartPoint[1] + CellSizing(1)] in current_trajectory) or (
+                        RandomNumber == 3 and [TrajectoryStartPoint[0] - CellSizing(1),
+                                               TrajectoryStartPoint[1]] in current_trajectory) or (
+                        RandomNumber == 4 and [TrajectoryStartPoint[0],
+                                               TrajectoryStartPoint[1] - CellSizing(1)] in current_trajectory):
                     RandomNumber = random.randint(1, 4)
 
                 if RandomNumber == 4:
