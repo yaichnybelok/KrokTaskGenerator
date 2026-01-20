@@ -11,8 +11,9 @@ with open('config.yaml', 'r', encoding='utf-8') as file:
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 trajectory_list = []  # cписок для записи траекторий
-trajectory_coords = []
+square_list = []
 answer = []
+
 Document_Name = ''
 WINDOW_WIDTH = configuration['WINDOW_WIDTH']
 WINDOW_HEIGHT = configuration['WINDOW_HEIGHT']
@@ -63,10 +64,9 @@ def MakeField():
 
     for i in range(TASKS_AMOUNT):
         trajectory_list.append([])
-        trajectory_coords.append([])
+        square_list.append([])
         for j in range(TRAJECTORY_AMOUNT):
             trajectory_list[i].append([])
-            trajectory_coords[i].append([])
 
     for a in range(TASKS_AMOUNT):
         document.add_paragraph('Задание "Траектория" ' + str(a + 1))
@@ -97,8 +97,6 @@ def MakeField():
             current_trajectory = []
 
             for i in range(TRAJECTORY_LENGTH):
-                trajectory_coords[a][j].append(TrajectoryStartPoint)
-
                 current_trajectory.append(TrajectoryStartPoint.copy())
 
                 RandomNumber = random.randint(1, 4)  # Случайное число для генерации поворотов
@@ -148,6 +146,24 @@ def MakeField():
                 canvas.create_oval((TrajectoryStartPoint[0], TrajectoryStartPoint[1]),
                                    (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=5,
                                    outline='black')
+            current_trajectory.append(TrajectoryStartPoint.copy())
+
+            x_coords = []
+            y_coords = []
+            for i in range(TRAJECTORY_LENGTH + 1):
+                x_coords.append(current_trajectory[i][0])
+                y_coords.append(current_trajectory[i][1])
+
+            x_min = min(x_coords)
+            y_min = min(y_coords)
+            x_max = max(x_coords)
+            y_max = max(y_coords)
+
+            square_list[a].append([x_min, y_min, x_max, y_max])
+
+
+            canvas.create_rectangle(square_list[a][j][0] - 10, square_list[a][j][1] - 10, square_list[a][j][2] + 10, square_list[a][j][3] + 10, width=1)
+
             TrajectoryStartPoint = [DefaultPoint[0] + CellSizing((j + 1) * TRAJECTORY_STEP), DefaultPoint[1]]
 
         # ---------------------------------------------Генерация задачи-------------------------------------------------
@@ -221,3 +237,4 @@ def MakeField():
 
 
 MakeField()
+print(square_list)
