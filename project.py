@@ -72,22 +72,22 @@ def MakeField():
         document.add_paragraph('Задание "Траектория" ' + str(a + 1))
         document.add_paragraph(TASK_DESCRIPTION)
 
-        master = tkinter.Tk()
-        canvas = tkinter.Canvas(master, bg='white', height=WINDOW_HEIGHT, width=WINDOW_WIDTH)  # Cоздание холста
-        master.attributes('-fullscreen', False)
-        if CELLS == True:
-            for i in range(CELLSIZE, WINDOW_WIDTH, CELLSIZE):
-                canvas.create_line((i, 0), (i, WINDOW_HEIGHT), fill='black')
-            for i in range(CELLSIZE, WINDOW_WIDTH, CELLSIZE):
-                canvas.create_line((0, i), (WINDOW_WIDTH, i), fill='black')
-        # Рисование клеток
-
-        DefaultPoint = [CellSizing(8), CellSizing(6)]
-        TrajectoryStartPoint = [CellSizing(7), CellSizing(6)]  # Исходная точка траектории
-
-        # Генерация траекторий
-
         for j in range(TRAJECTORY_AMOUNT):
+            master = tkinter.Tk()
+            canvas = tkinter.Canvas(master, bg='white', height=WINDOW_HEIGHT, width=WINDOW_WIDTH)  # Cоздание холста
+            master.attributes('-fullscreen', False)
+            if CELLS == True:
+                for i in range(CELLSIZE, WINDOW_WIDTH, CELLSIZE):
+                    canvas.create_line((i, 0), (i, WINDOW_HEIGHT), fill='black')
+                for i in range(CELLSIZE, WINDOW_WIDTH, CELLSIZE):
+                    canvas.create_line((0, i), (WINDOW_WIDTH, i), fill='black')
+            # Рисование клеток
+
+            DefaultPoint = [CellSizing(8), CellSizing(6)]
+            TrajectoryStartPoint = [CellSizing(45), CellSizing(18)]  # Исходная точка траектории
+
+            # Генерация траекторий
+
             canvas.create_oval((TrajectoryStartPoint[0], TrajectoryStartPoint[1]),
                                (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=9,
                                outline='black')  # рисуем точку начала траектории
@@ -161,21 +161,49 @@ def MakeField():
 
             square_list[a].append([x_min, y_min, x_max, y_max])
 
+            canvas.create_rectangle(square_list[a][j][0] - 10, square_list[a][j][1] - 10, square_list[a][j][2] + 10,
+                                    square_list[a][j][3] + 10, width=1)
 
-            canvas.create_rectangle(square_list[a][j][0] - 10, square_list[a][j][1] - 10, square_list[a][j][2] + 10, square_list[a][j][3] + 10, width=1)
-
-            TrajectoryStartPoint = [DefaultPoint[0] + CellSizing((j + 1) * TRAJECTORY_STEP), DefaultPoint[1]]
+            label = tkinter.Label(master, text="Генератор задач с роботом", relief='raised')
+            label.pack()
+            canvas.pack()
+            master.mainloop()
+            screenshot = ImageGrab.grab(
+                bbox=(square_list[a][j][0] - 30 + 15, square_list[a][j][1] - 30 + 70, square_list[a][j][2] + 10 + 15,
+                      square_list[a][j][3] + 10 + 70))
+            screenshot.save('screenshot.jpg')
+            document.add_paragraph(alphabet[j] + ':')
+            document.add_picture('screenshot.jpg')
 
         # ---------------------------------------------Генерация задачи-------------------------------------------------
+
+        master = tkinter.Tk()
+        canvas = tkinter.Canvas(master, bg='white', height=WINDOW_HEIGHT, width=WINDOW_WIDTH)  # Cоздание холста
+        master.attributes('-fullscreen', False)
+        if CELLS == True:
+            for i in range(CELLSIZE, WINDOW_WIDTH, CELLSIZE):
+                canvas.create_line((i, 0), (i, WINDOW_HEIGHT), fill='black')
+            for i in range(CELLSIZE, WINDOW_WIDTH, CELLSIZE):
+                canvas.create_line((0, i), (WINDOW_WIDTH, i), fill='black')
+        # Рисование клеток
+
+        DefaultPoint = [CellSizing(8), CellSizing(6)]
+        TrajectoryStartPoint = [CellSizing(7), CellSizing(6)]  # Исходная точка траектории
+
+        # Генерация траекторий
 
         TrajectoryStartPoint = [CellSizing(TASK_START_POINT_X), CellSizing(TASK_START_POINT_Y)]
         canvas.create_oval((TrajectoryStartPoint[0], TrajectoryStartPoint[1]),
                            (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=9,
                            outline='black')
 
+        current_trajectory = []
+
         for n in range(DIFFICULTY):
             trajectory_num = random.randint(0, TRAJECTORY_AMOUNT - 1)
+
             for i in TrajectoryRotater(trajectory_num, a):
+                current_trajectory.append(TrajectoryStartPoint.copy())
                 if i == 'up':
                     canvas.create_line((TrajectoryStartPoint[0], TrajectoryStartPoint[1] - CellSizing(1)),
                                        (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=3)
@@ -202,24 +230,45 @@ def MakeField():
                 canvas.create_oval((TrajectoryStartPoint[0], TrajectoryStartPoint[1]),
                                    (TrajectoryStartPoint[0], TrajectoryStartPoint[1]), fill='black', width=5,
                                    outline='black')
+
+            current_trajectory.append(TrajectoryStartPoint.copy())
             answer[a].append(alphabet[trajectory_num])
 
-        # Сохранение файла
+
+        x_coords = []
+        y_coords = []
+        for i in range(DIFFICULTY * TRAJECTORY_LENGTH + 3):
+            x_coords.append(current_trajectory[i][0])
+            y_coords.append(current_trajectory[i][1])
+
+        x_min = min(x_coords)
+        y_min = min(y_coords)
+        x_max = max(x_coords)
+        y_max = max(y_coords)
+
+        screenshotbox = [x_min, y_min, x_max, y_max]
+
+        canvas.create_rectangle(screenshotbox[0] - 10, screenshotbox[1] - 10, screenshotbox[2] + 10,
+                                screenshotbox[3] + 10, width=1)
 
         label = tkinter.Label(master, text="Генератор задач с роботом", relief='raised')
         label.pack()
         canvas.pack()
         master.mainloop()
         screenshot = ImageGrab.grab(
-            bbox=(15, 70, 1000, 1000))
+            bbox=(screenshotbox[0] - 30 + 15, screenshotbox[1] - 30 + 70, screenshotbox[2] + 10 + 15,
+                  screenshotbox[3] + 10 + 70))
         screenshot.save('screenshot.jpg')
-        naming_string = ' ' * 24
-        for i in range(TRAJECTORY_AMOUNT):
-            naming_string += alphabet[i]
-            naming_string += ' ' * 33
 
-        document.add_paragraph(naming_string)
-        document.add_picture('screenshot.jpg', width=Cm(15), height=Cm(15))
+        # Сохранение файла
+
+        # naming_string = ' ' * 24
+        # for i in range(TRAJECTORY_AMOUNT):
+        #    naming_string += alphabet[i]
+        #    naming_string += ' ' * 33
+        # document.add_paragraph(naming_string)
+
+        document.add_picture('screenshot.jpg')
         document.add_paragraph(' ')
         document.add_paragraph('Ответ:____________')
         document.save(str(TASKS_FILENAME) + '.docx')
@@ -237,4 +286,3 @@ def MakeField():
 
 
 MakeField()
-print(square_list)
