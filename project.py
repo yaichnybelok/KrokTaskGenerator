@@ -1,10 +1,10 @@
 import random
 import tkinter
-
 import yaml
 from PIL import ImageGrab
 from docx import *
 from docx.shared import Inches, Cm, Pt
+import time
 
 with open('config.yaml', 'r', encoding='utf-8') as file:
     configuration = yaml.safe_load(file)
@@ -169,8 +169,9 @@ def MakeField():
             canvas.pack()
             master.mainloop()
             screenshot = ImageGrab.grab(
-                bbox=(square_list[a][j][0] - 30 + 15, square_list[a][j][1] - 30 + 70, square_list[a][j][2] + 10 + 15,
-                      square_list[a][j][3] + 10 + 70))
+                bbox=(square_list[a][j][0] + 140, square_list[a][j][1] + 90, square_list[a][j][2] + 195,
+                      square_list[a][j][3] + 160))
+
             screenshot.save('screenshot.jpg')
             document.add_paragraph(alphabet[j] + ':')
             document.add_picture('screenshot.jpg')
@@ -234,7 +235,6 @@ def MakeField():
             current_trajectory.append(TrajectoryStartPoint.copy())
             answer[a].append(alphabet[trajectory_num])
 
-
         x_coords = []
         y_coords = []
         for i in range(DIFFICULTY * TRAJECTORY_LENGTH + 3):
@@ -256,8 +256,8 @@ def MakeField():
         canvas.pack()
         master.mainloop()
         screenshot = ImageGrab.grab(
-            bbox=(screenshotbox[0] - 30 + 15, screenshotbox[1] - 30 + 70, screenshotbox[2] + 10 + 15,
-                  screenshotbox[3] + 10 + 70))
+            bbox=(screenshotbox[0] + 110, screenshotbox[1] + 80, screenshotbox[2] + 210,
+                  screenshotbox[3] + 160))
         screenshot.save('screenshot.jpg')
 
         # Сохранение файла
